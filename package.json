@@ -26,10 +26,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "gh-pages:404": "cp build/index.html build/404.html"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +53,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint": "8.28.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-import-resolver-typescript": "3.5.2",
+    "eslint-plugin-react": "7.31.11"
   }
 }
