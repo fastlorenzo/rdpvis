@@ -5,6 +5,9 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(async () => ({
   plugins: [react()],
 
+  // Set the base URL to the PUBLIC_URL env variable if it exists or to the default value "/"
+  base: process.env.PUBLIC_URL || "/",
+
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent vite from obscuring rust errors
