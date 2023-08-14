@@ -1,14 +1,15 @@
 {
   "name": "rdpvis",
-  "version": "0.1.0",
-  "private": false,
-  "author": {
-    "name": "fastlorenzo",
-    "email": "git@bernardi.be"
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "gh-pages:404": "cp dist/index.html dist/404.html"
   },
-  "description": "RDP visualization",
-  "license": "MIT",
-  "homepage": "https://fastlorenzo.github.io/rdpvis",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -17,46 +18,16 @@
     "@mui/lab": "^5.0.0-alpha.138",
     "@mui/material": "^5.14.3",
     "@mui/x-data-grid": "^6.11.0",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@tauri-apps/api": "^1.4.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "lint": "eslint src",
-    "lint:fix": "eslint --fix src",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "gh-pages:404": "cp build/index.html build/404.html"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "eslint": "8.28.0",
-    "eslint-config-airbnb": "19.0.4",
-    "eslint-import-resolver-typescript": "3.5.2",
-    "eslint-plugin-react": "7.31.11"
+    "@tauri-apps/cli": "^1.4.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.4"
   }
 }

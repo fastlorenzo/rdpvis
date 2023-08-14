@@ -1,4 +1,3 @@
-import React from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -11,9 +10,9 @@ import ConnectIcon from "@mui/icons-material/ScreenShare";
 import DisconnectIcon from "@mui/icons-material/StopScreenShare";
 import AuthSuccessIcon from "@mui/icons-material/GppGood";
 
-const EvtTimeline = ({ events }) => {
+const EvtTimeline = ({ events }: {events: any}) => {
   const timelineEvents = events ? (
-    events.map((event) => (
+    events.map((event: any) => (
       <TimelineItem key={event.timestamp}>
         <TimelineOppositeContent
           sx={{ m: "auto 0" }}
@@ -51,7 +50,7 @@ const EvtTimeline = ({ events }) => {
           </Typography>
           <Typography>
             {event.source_ip}{" "}
-            <Typography variant="span" sx={{ color: "text.info" }}>
+            <Typography variant="body2" sx={{ color: "text.info" }}>
               &rarr;
             </Typography>{" "}
             {event.destination}

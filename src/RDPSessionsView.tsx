@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 import { groupEvents, formatDuration } from "./utils/parser";
@@ -12,30 +12,30 @@ const columns = [
     field: "duration",
     headerName: "Duration",
     flex: 0.8,
-    valueFormatter: (params) => formatDuration(params.value),
+    valueFormatter: (params: { value: any; }) => formatDuration(params.value),
   },
   {
     field: "connected_at",
     headerName: "Connected At",
     minWidth: 230,
-    valueFormatter: (params) => params.value.toUTCString(),
+    valueFormatter: (params: { value: { toUTCString: () => any; }; }) => params.value.toUTCString(),
   },
   {
     field: "disconnected_at",
     headerName: "Disconnected At",
     minWidth: 230,
-    valueFormatter: (params) => params.value.toUTCString(),
+    valueFormatter: (params: { value: { toUTCString: () => any; }; }) => params.value.toUTCString(),
   },
 ];
 
-const RDPSessionsView = ({ events }) => {
+const RDPSessionsView = ({ events }: { events: any }) => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
     if (events) {
       const grouped = groupEvents(events);
 
-      let rows = grouped.map((session) => {
+      let rows = grouped.map((session: { activityId: any; source: any; destination: any; user: any; domain: any; duration: any; connected_at: any; disconnected_at: any; }) => {
         return {
           id: session.activityId,
           source: session.source,
