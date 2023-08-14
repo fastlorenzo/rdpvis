@@ -1,4 +1,3 @@
-import "./App.css";
 import Reader from "./Reader";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -6,7 +5,11 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+import "./App.css";
+
 function App() {
+
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>

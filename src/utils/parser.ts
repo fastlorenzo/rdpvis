@@ -4,7 +4,7 @@ const hosts = [
   ["192.168.0.1", "SERVER1.CONTOSO.COM"],
 ];
 
-const parseEventLog = (eventLogs) => {
+const parseEventLog = (eventLogs: any) => {
   // If eventLogs is empty or not an array, return empty array
   if (!eventLogs || !Array.isArray(eventLogs)) {
     console.log("eventLogs is empty or not an array", eventLogs);
@@ -14,8 +14,7 @@ const parseEventLog = (eventLogs) => {
   // Filter eventLogs to only include events with group "rdp_attacks"
   eventLogs = eventLogs.filter((event) => event.group === "rdp_attacks");
 
-  let events = eventLogs.map((event) => {
-
+  let events = eventLogs.map((event: any) => {
     const eventData = event.document.data.Event;
     const systemData = eventData.System;
 
@@ -51,8 +50,8 @@ const parseEventLog = (eventLogs) => {
       source_ip = eventData.EventData.IpAddress;
     }
 
-    let source = hosts.find((host) => host[0] === source_ip);
-    source = source ? source[1] : source_ip;
+    const source = hosts.find((host) => host[0] === source_ip);
+    const source_str = source ? source[1] : source_ip;
 
     // parse timestamp to Date object and format it
     const timestamp = new Date(event.timestamp);
@@ -66,7 +65,7 @@ const parseEventLog = (eventLogs) => {
       destination: systemData.Computer,
       user,
       domain,
-      source,
+      source: source_str,
       source_ip,
       activityId,
     };
@@ -74,23 +73,23 @@ const parseEventLog = (eventLogs) => {
 
   // remove duplicates based on timestamp
   events = events.filter(
-    (event, index, self) =>
+    (event: any, index: number, self: any) =>
       index ===
       self.findIndex(
-        (e) => e.timestamp.toUTCString() === event.timestamp.toUTCString()
+        (e: any) => e.timestamp.toUTCString() === event.timestamp.toUTCString()
       )
   );
 
   // sort by timestamp
-  events.sort((a, b) => a.timestamp - b.timestamp);
+  events.sort((a: any, b: any) => a.timestamp - b.timestamp);
 
   return events;
 };
 
-const groupEvents = (events) => {
+const groupEvents = (events: any) => {
   // group by activityId
-  let grouped_events = events.reduce((acc, event) => {
-    let index = acc.findIndex((e) => e.activityId === event.activityId);
+  let grouped_events = events.reduce((acc: any, event: any) => {
+    let index = acc.findIndex((e: any) => e.activityId === event.activityId);
     if (index === -1) {
       acc.push({
         activityId: event.activityId,
@@ -104,10 +103,12 @@ const groupEvents = (events) => {
   }, []);
 
   // Calculate duration connected and disconnected events and add to grouped_events
-  grouped_events = grouped_events.map((group) => {
-    let connected = group.events.find((event) => event.type === "connected");
+  grouped_events = grouped_events.map((group: any) => {
+    let connected = group.events.find(
+      (event: any) => event.type === "connected"
+    );
     let disconnected = group.events.find(
-      (event) => event.type === "disconnected"
+      (event: any) => event.type === "disconnected"
     );
 
     let duration = 0;
@@ -130,11 +131,13 @@ const groupEvents = (events) => {
   });
 
   // remove empty objects
-  grouped_events = grouped_events.filter((group) => Object.keys(group).length);
+  grouped_events = grouped_events.filter(
+    (group: any) => Object.keys(group).length
+  );
   return grouped_events;
 };
 
-const formatDuration = (ms) => {
+const formatDuration = (ms: any) => {
   if (ms < 0) ms = -ms;
   const time = {
     d: Math.floor(ms / 86400000),

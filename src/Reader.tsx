@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import EvtTimeline from "./EvtTimeline";
 
 import Box from "@mui/material/Box";
@@ -14,7 +14,7 @@ import Tab from "@mui/material/Tab";
 import { parseEventLog } from "./utils/parser";
 import RDPSessionsView from "./RDPSessionsView";
 
-function CustomTabPanel(props) {
+function CustomTabPanel(props: { [x: string]: any; children: any; value: any; index: any; }) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -25,25 +25,25 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{my:2}}>{children}</Box>}
+      {value === index && <Box sx={{ my: 2 }}>{children}</Box>}
     </div>
   );
 }
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
-const FileReaderComponent = () => {
-  const [fileContent, setFileContent] = useState({});
-  const [eventsFilters, setEventsFilters] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const [eventTypes, setEventTypes] = useState([]);
-  const [selectedView, setSelectedView] = useState(0);
+const Reader = () => {
+  const [fileContent, setFileContent] = useState<any>({});
+  const [eventsFilters, setEventsFilters] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<any[]>([]);
+  const [eventTypes, setEventTypes] = useState<any[]>([]);
+  const [selectedView, setSelectedView] = useState<number>(0);
 
   // When eventsFilters or events changes, filter events
   useEffect(() => {
@@ -71,13 +71,16 @@ const FileReaderComponent = () => {
     }
   }, [fileContent]);
 
-  const handleFileRead = (event) => {
-    const file = event.target.files[0];
+  const handleFileRead = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const target = event.target as HTMLInputElement;
+    const files: FileList = target.files as FileList;
+    const file = files[0];
     const reader = new FileReader();
 
     reader.onload = (event) => {
       try {
-        const json = JSON.parse(event.target.result);
+        if (event.target === null) return;
+        const json = JSON.parse(event.target.result?.toString() || "{}");
         setFileContent(json);
       } catch (err) {
         console.error("Error parsing JSON: ", err);
@@ -85,14 +88,14 @@ const FileReaderComponent = () => {
     };
 
     reader.onerror = (event) => {
-      console.error("File could not be read: ", event.target.error);
+      console.error("File could not be read: ", event.target?.error || "");
     };
 
     reader.readAsText(file);
   };
 
   return (
-    <Box sx={{ width: "100%", my:2 }}>
+    <Box sx={{ width: "100%", my: 2 }}>
       <Box component="form">
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           {/* <InputLabel id="input-file-label">Select file</InputLabel> */}
@@ -100,7 +103,6 @@ const FileReaderComponent = () => {
             id="input-file"
             type="file"
             onChange={handleFileRead}
-            input={<OutlinedInput id="input-file" label="Select file" />}
           />
         </FormControl>
 
@@ -121,7 +123,8 @@ const FileReaderComponent = () => {
             )}
             label="Events type"
             onChange={(e) => {
-              setEventsFilters(e.target.value);
+              const choice = e.target.value as string[];
+              setEventsFilters(choice);
             }}
           >
             {eventTypes.map((name) => (
@@ -137,7 +140,7 @@ const FileReaderComponent = () => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={selectedView}
-            onChange={(event, newValue) => setSelectedView(newValue)}
+            onChange={(_, newValue) => setSelectedView(newValue)}
             aria-label="basic tabs example"
           >
             <Tab label="Sessions" {...a11yProps(0)} />
@@ -155,4 +158,4 @@ const FileReaderComponent = () => {
   );
 };
 
-export default FileReaderComponent;
+export default Reader;
