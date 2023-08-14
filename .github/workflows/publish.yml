@@ -64,6 +64,11 @@ jobs:
         env:
           PUBLIC_URL: /rdpvis
 
+      - name: Replace %PUBLIC_URL% with /rdpvis
+        run: |
+          sed -i 's/%PUBLIC_URL%/\/rdpvis/g' ./dist/index.html
+          sed -i 's/%PUBLIC_URL%/\/rdpvis/g' ./dist/404.html
+
       - name: upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
